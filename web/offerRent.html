@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Offer Rent</title>
+    <script src="app.js" defer></script>
+    <script src="web3.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Offer Rent</h1>
+
+<!-- Форма для предложения аренды -->
+<div class="container">
+    <form id="offerRent">
+        <label for="propertyAddress">Property Address:</label><br>
+        <input type="text" id="propertyAddress" name="propertyAddress"><br><br>
+
+        <label for="rentAmount">Rent Amount (ETH):</label><br>
+        <input type="number" id="rentAmount" name="rentAmount"><br><br>
+
+        <label for="rentDuration">Rent Duration (months):</label><br>
+        <input type="number" id="rentDuration" name="rentDuration"><br><br>
+
+        <button type="submit" id="offerRentButton" class="btn">Offer Rent</button>
+        <button type="button" onclick="navigateTo('index')">Exit</button>
+    </form>
+
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+        const offerRentButton = document.getElementById('offerRentButton');
+        offerRentButton.addEventListener('click', async (event) => {
+            event.preventDefault();
+
+            try {
+                const propertyAddress = document.getElementById('propertyAddress').value;
+                const rentAmount = document.getElementById('rentAmount').value;
+                const rentDuration = document.getElementById('rentDuration').value;
+
+                await contract.methods.offerRent(propertyAddress, rentAmount, rentDuration).send({
+                    from: propertyAddress,
+                    gas: 3000000
+                });
+
+                console.log('Аренда успешно предложена!');
+            } catch (error) {
+                console.error('Ошибка при предложении аренды:', error);
+            }
+        });
+    });
+</script>
+
+<script>
+    function navigateTo(page) {
+        switch (page) {
+            case 'index':
+                window.location.href = 'index.html';
+                break;
+            default:
+                break;
+        }
+    }
+</script>
+</body>
+</html>

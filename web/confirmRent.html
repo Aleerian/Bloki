@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm Rent</title>
+    <script src="app.js" defer></script>
+    <script src="web3.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Confirm Rent</h1>
+
+<!-- Форма для подтверждения аренды -->
+<div class="container">
+    <form id="confirmRentForm">
+        <label for="propertyAddress">Property Address:</label><br>
+        <input type="text" id="propertyAddress" name="propertyAddress"><br><br>
+        <button type="submit" class="btn">Confirm Rent</button>
+    </form>
+
+    <button onclick="navigateToIndex()">Back to Home</button>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const confirmRentForm = document.getElementById('confirmRentForm');
+        confirmRentForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            try {
+                const propertyAddress = document.getElementById('propertyAddress').value;
+
+                await contract.methods.confirmRent(propertyAddress).send({
+                    from: propertyAddress,
+                    gas: 3000000
+                });
+
+                console.log('Аренда успешно подтверждена!');
+            } catch (error) {
+                console.error('Ошибка при подтверждении аренды:', error);
+            }
+        });
+    });
+</script>
+<script>
+    function navigateToIndex() {
+        window.location.href = 'index.html';
+    }
+</script>
+</body>
+</html>

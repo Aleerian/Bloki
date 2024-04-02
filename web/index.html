@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estate Agency DApp</title>
+    <script src="app.js" defer></script>
+    <script src="web3.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Estate Agency DApp</h1>
+<div id="propertyList"></div>
+<button onclick="checkContract()">Check Contract</button>
+
+<hr>
+<h2>Navigation</h2>
+<button onclick="navigateTo('cancelRentOffer')">Отмена аренды</button>
+<button onclick="navigateTo('confirmRent')">Подтверждение аренды</button>
+<button onclick="navigateTo('offerRent')">Предложение аренды</button>
+<button onclick="navigateTo('propertyInfo')">Просмотр информации о недвижимости</button>
+<button onclick="navigateTo('viewOffers')">Посмотреть предложения аренды</button>
+<hr>
+
+<h2>Register Property</h2>
+<form id="registerPropertyForm">
+    <label for="propertyAddress">Property Address:</label><br>
+    <input type="text" id="propertyAddress" name="propertyAddress"><br>
+    <label for="totalArea">Total Area:</label><br>
+    <input type="number" id="totalArea" name="totalArea"><br>
+    <label for="usefulArea">Useful Area:</label><br>
+    <input type="number" id="usefulArea" name="usefulArea"><br><br>
+    <button type="submit" id="confirmButton" class="btn">Register</button>
+</form>
+<script>
+    const confirmButton = document.getElementById('confirmButton');
+    confirmButton.addEventListener('click', async (event) => {
+        event.preventDefault();
+
+        try {
+            const propertyAddress = document.getElementById('propertyAddress').value;
+            const totalArea = document.getElementById('totalArea').value;
+            const usefulArea = document.getElementById('usefulArea').value;
+
+            await contract.methods.registerProperty(propertyAddress, totalArea, usefulArea).send({
+                from: propertyAddress,
+                gas: 3000000
+            });
+
+            console.log('Недвижимость успешно зарегистрирована!');
+        } catch (error) {
+            console.error('Ошибка при регистрации недвижимости:', error);
+        }
+    });
+</script>
+<script>
+    function navigateTo(page) {
+        switch (page) {
+            case 'cancelRentOffer':
+                window.location.href = 'cancelRentOffer.html';
+                break;
+            case 'confirmRent':
+                window.location.href = 'confirmRent.html';
+                break;
+            case 'offerRent':
+                window.location.href = 'offerRent.html';
+                break;
+            case 'propertyInfo':
+                window.location.href = 'propertyInfo.html';
+                break;
+            case 'viewOffers':
+                // Здесь можно добавить логику для перехода на страницу просмотра предложений аренды
+                break;
+            default:
+                break;
+        }
+    }
+</script>
+</body>
+</html>
