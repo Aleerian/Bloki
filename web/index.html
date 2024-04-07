@@ -3,34 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estate Agency DApp</title>
+    <title>Агенство недвижимости</title>
     <script src="app.js" defer></script>
     <script src="web3.min.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1>Estate Agency DApp</h1>
-<div id="propertyList"></div>
-<button onclick="checkContract()">Check Contract</button>
-
+<h1>Агенство недвижимости</h1>
 <hr>
-<h2>Navigation</h2>
+<h2>Навигация</h2>
 <button onclick="navigateTo('cancelRentOffer')">Отмена аренды</button>
 <button onclick="navigateTo('confirmRent')">Подтверждение аренды</button>
 <button onclick="navigateTo('offerRent')">Предложение аренды</button>
 <button onclick="navigateTo('propertyInfo')">Просмотр информации о недвижимости</button>
-<button onclick="navigateTo('viewOffers')">Посмотреть предложения аренды</button>
+<button onclick="navigateTo('changeRole')">Смена роли</button>
 <hr>
 
-<h2>Register Property</h2>
+<h2>Регистрация недвижимости</h2>
 <form id="registerPropertyForm">
-    <label for="propertyAddress">Property Address:</label><br>
+    <label for="propertyAddress">Адрес объекта недвижимости:</label><br>
     <input type="text" id="propertyAddress" name="propertyAddress"><br>
-    <label for="totalArea">Total Area:</label><br>
+    <label for="totalArea">Общая площадь:</label><br>
     <input type="number" id="totalArea" name="totalArea"><br>
-    <label for="usefulArea">Useful Area:</label><br>
+    <label for="usefulArea">Послезная площадь:</label><br>
     <input type="number" id="usefulArea" name="usefulArea"><br><br>
-    <button type="submit" id="confirmButton" class="btn">Register</button>
+    <button type="submit" id="confirmButton" class="btn">Зарегистрировать</button>
 </form>
 <script>
     const confirmButton = document.getElementById('confirmButton');
@@ -68,8 +65,8 @@
             case 'propertyInfo':
                 window.location.href = 'propertyInfo.html';
                 break;
-            case 'viewOffers':
-                // Здесь можно добавить логику для перехода на страницу просмотра предложений аренды
+            case 'changeRole':
+                window.location.href = 'changeRole.html';
                 break;
             default:
                 break;

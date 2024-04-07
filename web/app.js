@@ -419,4 +419,4 @@ const contract =  new web3.eth.Contract( [
         "type": "function",
         "constant": true
     }
-],'0x0A3beE88ca52257498FC7f5B17015749D8B0ACb2' );
+],'0xddF36E10F974D5af6A229afA2F7BD6AB7B68C620' );

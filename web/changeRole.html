@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Смена роли</title>
+    <script src="app.js" defer></script>
+    <script src="web3.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+
+<div class="container">
+    <h1>Смена роли</h1>
+    <form id="changeUserRoleForm">
+        <input type="text" id="userAddress" placeholder="Адрес" required><br>
+        <label for="isAdmin">Админ?:</label>
+        <input class="checkbox" type="checkbox" id="isAdmin" name="isAdmin"><br>
+        <button type="submit" class="btn">Сменить</button>
+        <button type="button" onclick="navigateTo('index')">Назад</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const changeUserRoleForm = document.getElementById('changeUserRoleForm');
+
+        changeUserRoleForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const userAddress = document.getElementById('userAddress').value;
+            const isAdmin = document.getElementById('isAdmin').checked;
+
+            try {
+                await contract.methods.changeUserRole(userAddress, isAdmin).send({
+                    from: userAddress,
+                    gas: 3000000
+                });
+
+                console.log('Роль успешно сменена!');
+            } catch (error) {
+                console.error('Ошибка при смене роли:', error);
+            }});
+    });
+</script>
+
+<script>
+    function navigateTo(page) {
+        switch (page) {
+            case 'index':
+                window.location.href = 'index.html';
+                break;
+            default:
+                break;
+        }
+    }
+</script>
+</body>
+</html>

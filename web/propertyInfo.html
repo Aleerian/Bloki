@@ -2,23 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Confirm Rent</title>
+    <title>Информация о недвижимости</title>
+    <script src="app.js" defer></script>
+    <script src="web3.min.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<h1>Property Info</h1>
+<h1>Информация о недвижимости</h1>
 
-<!-- Форма для подтверждения аренды -->
 <div class="container">
-    <form id="propertyInfo">
-        <label for="propertyAddress">Property Address:</label><br>
+    <form id="viewPropertyForm">
+        <label for="propertyAddress">Адрес объекта недвижимости:</label><br>
         <input type="text" id="propertyAddress" name="propertyAddress"><br><br>
-        <button type="submit">Confirm Rent</button>
+        <div class="property-container">
+            <div id="propertyInfo" class="property-info"></div>
+        </div>
+        <button type="submit" class="btn">Просмотреть</button>
+        <button onclick="navigateToIndex()">Назад</button>
     </form>
-
-    <button onclick="navigateToIndex()">Back to Home</button>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const viewPropertyForm = document.getElementById('viewPropertyForm');
+        const propertyInfoDiv = document.getElementById('propertyInfo');
+
+        viewPropertyForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const propertyAddress = document.getElementById('propertyAddress').value;
+
+            try {
+                const propertyInfo = await contract.methods.properties(propertyAddress).call();
+                propertyInfoDiv.innerHTML = `
+                    <p><strong>Адрес:</strong> ${propertyAddress}</p>
+                    <p><strong>Владелец:</strong> ${propertyInfo.owner}</p>
+                    <p><strong>Общая площадь:</strong> ${propertyInfo.totalArea}</p>
+                    <p><strong>Используемая площадь:</strong> ${propertyInfo.usefulArea}</p>
+                    <p><strong>Сумма аренды:</strong> ${propertyInfo.rentAmount}</p>
+                    <p><strong>Продолжительность аренды:</strong> ${propertyInfo.rentDuration}</p>
+                    <p><strong>Состояние аренды:</strong> ${propertyInfo.rented ? 'Арендовано' : 'Не арендовано'}</p>
+                `;
+            } catch (error) {
+                console.error('Ошибка при получении информации о недвижимости:', error);
+                propertyInfoDiv.innerHTML = `<p>Ошибка при получении информации о недвижимости: ${error.message}</p>`;
+            }
+        });
+    });
+</script>
 
 <script>
     function navigateToIndex() {

@@ -2,29 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Offer Rent</title>
+    <title>Создание аренды</title>
     <script src="app.js" defer></script>
     <script src="web3.min.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<h1>Offer Rent</h1>
+<h1>Создание аренды</h1>
 
 <!-- Форма для предложения аренды -->
 <div class="container">
     <form id="offerRent">
-        <label for="propertyAddress">Property Address:</label><br>
+        <label for="propertyAddress">Адрес объекта недвижимости:</label><br>
         <input type="text" id="propertyAddress" name="propertyAddress"><br><br>
 
-        <label for="rentAmount">Rent Amount (ETH):</label><br>
+        <label for="rentAmount">Сумма аренды (ETH)</label><br>
         <input type="number" id="rentAmount" name="rentAmount"><br><br>
 
-        <label for="rentDuration">Rent Duration (months):</label><br>
+        <label for="rentDuration">Продолжительность аренды (месяцев):</label><br>
         <input type="number" id="rentDuration" name="rentDuration"><br><br>
 
-        <button type="submit" id="offerRentButton" class="btn">Offer Rent</button>
-        <button type="button" onclick="navigateTo('index')">Exit</button>
+        <button type="submit" id="offerRentButton" class="btn">Создать аренду</button>
+        <button type="button" onclick="navigateTo('index')">Назад</button>
     </form>
 
 </div>
