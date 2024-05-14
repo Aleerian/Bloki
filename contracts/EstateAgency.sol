@@ -22,6 +22,8 @@ contract EstateAgency {
     event RentCancelled(address indexed propertyAddress, address indexed renter);
     event FundsWithdrawn(address indexed receiver, uint amount);
     event RoleChanged(address indexed user, bool isAdmin);
+    event PropertyAreasUpdated(address indexed propertyAddress, uint newTotalArea, uint newUsefulArea);
+    event PropertyOwnerChanged(address indexed propertyAddress, address indexed previousOwner, address indexed newOwner);
 
     constructor(address admin1, address admin2, address owner1, address owner2)  {
         administrators[admin1] = true;
@@ -93,6 +95,45 @@ contract EstateAgency {
         emit RoleChanged(user, isAdmin);
     }
 
+    // новички
+    function transferOwnership(address propertyAddress, address newOwner) public {
+        require(newOwner != address(0), "Invalid new owner address");
+        properties[propertyAddress].owner = newOwner;
+        emit PropertyOwnerChanged(propertyAddress, msg.sender, newOwner);
+    }
+
+    function extendRent(address propertyAddress, uint newRentAmount) public payable {
+        require(properties[propertyAddress].owner != address(0), "Property is not registered");
+        require(properties[propertyAddress].rented, "Property is not rented");
+
+        properties[propertyAddress].rentAmount = newRentAmount;
+
+        // Увеличиваем баланс владельца недвижимости на вновь полученную арендную плату
+        balances[properties[propertyAddress].owner] += msg.value;
+
+        emit RentConfirmed(propertyAddress, msg.sender, msg.value, properties[propertyAddress].rentDuration);
+    }
+
+    function removeProperty(address propertyAddress) public onlyAdmin {
+        delete properties[propertyAddress];
+    }
+
+    function updatePropertyAreas(address propertyAddress, uint newTotalArea, uint newUsefulArea) public onlyAdmin {
+        require(newTotalArea > 0, "Total area must be greater than zero");
+        require(newUsefulArea <= newTotalArea, "Useful area cannot exceed total area");
+
+        Property storage property = properties[propertyAddress];
+        property.totalArea = newTotalArea;
+        property.usefulArea = newUsefulArea;
+
+        emit PropertyAreasUpdated(propertyAddress, newTotalArea, newUsefulArea);
+    }
+
+    function checkBalance(address account) public view returns (uint) {
+        return balances[account];
+    }
+
+    //
     function getAllProperties() public view returns (address[] memory, address[] memory, uint[] memory, uint[] memory, uint[] memory, uint[] memory, bool[] memory) {
         uint length = address(this).balance;
         address[] memory propertyAddresses = new address[](length);

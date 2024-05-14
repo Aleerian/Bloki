@@ -57,6 +57,56 @@ const contract =  new web3.eth.Contract( [
                 "type": "address"
             },
             {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "newTotalArea",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "newUsefulArea",
+                "type": "uint256"
+            }
+        ],
+        "name": "PropertyAreasUpdated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "propertyAddress",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "previousOwner",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "PropertyOwnerChanged",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "propertyAddress",
+                "type": "address"
+            },
+            {
                 "indexed": true,
                 "internalType": "address",
                 "name": "owner",
@@ -189,8 +239,7 @@ const contract =  new web3.eth.Contract( [
             }
         ],
         "stateMutability": "view",
-        "type": "function",
-        "constant": true
+        "type": "function"
     },
     {
         "inputs": [
@@ -209,8 +258,7 @@ const contract =  new web3.eth.Contract( [
             }
         ],
         "stateMutability": "view",
-        "type": "function",
-        "constant": true
+        "type": "function"
     },
     {
         "inputs": [
@@ -254,8 +302,7 @@ const contract =  new web3.eth.Contract( [
             }
         ],
         "stateMutability": "view",
-        "type": "function",
-        "constant": true
+        "type": "function"
     },
     {
         "inputs": [],
@@ -268,8 +315,7 @@ const contract =  new web3.eth.Contract( [
             }
         ],
         "stateMutability": "pure",
-        "type": "function",
-        "constant": true
+        "type": "function"
     },
     {
         "inputs": [
@@ -328,8 +374,7 @@ const contract =  new web3.eth.Contract( [
         "name": "confirmRent",
         "outputs": [],
         "stateMutability": "payable",
-        "type": "function",
-        "payable": true
+        "type": "function"
     },
     {
         "inputs": [
@@ -376,6 +421,102 @@ const contract =  new web3.eth.Contract( [
         "type": "function"
     },
     {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "propertyAddress",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "transferOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "propertyAddress",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "additionalRentDuration",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "newRentAmount",
+                "type": "uint256"
+            }
+        ],
+        "name": "extendRent",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "propertyAddress",
+                "type": "address"
+            }
+        ],
+        "name": "removeProperty",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "propertyAddress",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "newTotalArea",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "newUsefulArea",
+                "type": "uint256"
+            }
+        ],
+        "name": "updatePropertyAreas",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            }
+        ],
+        "name": "checkBalance",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [],
         "name": "getAllProperties",
         "outputs": [
@@ -416,7 +557,6 @@ const contract =  new web3.eth.Contract( [
             }
         ],
         "stateMutability": "view",
-        "type": "function",
-        "constant": true
+        "type": "function"
     }
-],'0xddF36E10F974D5af6A229afA2F7BD6AB7B68C620' );
+],'0x2D7533e281dD2Ce6b2d53326B47d4fC443d8db50' );

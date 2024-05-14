@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменение параметров недвижимости</title>
+    <script src="app.js" defer></script>
+    <script src="web3.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Изменение параметров недвижимости</h2>
+    <form id="updatePropertyForm">
+        <label for="propertyAddress">Адрес объекта недвижимости:</label><br>
+        <input type="text" id="propertyAddress" name="propertyAddress"><br>
+        <label for="totalArea">Общая площадь:</label><br>
+        <input type="number" id="totalArea" name="totalArea"><br>
+        <label for="usefulArea">Послезная площадь:</label><br>
+        <input type="number" id="usefulArea" name="usefulArea"><br><br>
+        <button type="submit" id="confirmButton" class="btn">Изменить</button>
+        <button onclick="navigateToIndex()">Назад</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const confirmButton = document.getElementById('confirmButton');
+        confirmButton.addEventListener('click', async (event) => {
+            event.preventDefault();
+
+            try {
+                const propertyAddress = document.getElementById('propertyAddress').value;
+                const totalArea = document.getElementById('totalArea').value;
+                const usefulArea = document.getElementById('usefulArea').value;
+
+                await contract.methods.updatePropertyAreas(propertyAddress, totalArea, usefulArea).send({
+                    from: propertyAddress,
+                    gas: 3000000
+                });
+
+                console.log('Недвижимость успешно изменина!');
+            } catch (error) {
+                console.error('Ошибка при изменении недвижимости:', error);
+            }
+        });
+    });
+</script>
+<script>
+    function navigateToIndex() {
+        window.location.href = 'index.html';
+    }
+</script>
+</body>
+</html>

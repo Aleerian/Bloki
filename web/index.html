@@ -17,6 +17,10 @@
 <button onclick="navigateTo('offerRent')">Предложение аренды</button>
 <button onclick="navigateTo('propertyInfo')">Просмотр информации о недвижимости</button>
 <button onclick="navigateTo('changeRole')">Смена роли</button>
+<button onclick="navigateTo('transferOwner')">Передача недвижимости</button>
+<button onclick="navigateTo('updateProperty')">Изменение объекта недвижимости</button>
+<button onclick="navigateTo('removeProperty')">Удаление объекта недвижимости</button>
+<button onclick="navigateTo('updateRent')">Обновлении аренды</button>
 <hr>
 
 <h2>Регистрация недвижимости</h2>
@@ -29,25 +33,51 @@
     <input type="number" id="usefulArea" name="usefulArea"><br><br>
     <button type="submit" id="confirmButton" class="btn">Зарегистрировать</button>
 </form>
+
+<h2>Проверка баланса</h2>
+<form id="checkBalanceForm">
+<label for="accountAddress">Адрес:</label><br>
+<input type="text" id="accountAddress" name="accountAddress"><br>
+<button type="submit" id="checkButton" class="btn">Проверить баланс</button>
+<div id="balanceResult"></div>
+</form>
+
 <script>
-    const confirmButton = document.getElementById('confirmButton');
+    const confirmButton = document.getElementById('checkButton');
     confirmButton.addEventListener('click', async (event) => {
         event.preventDefault();
 
         try {
-            const propertyAddress = document.getElementById('propertyAddress').value;
-            const totalArea = document.getElementById('totalArea').value;
-            const usefulArea = document.getElementById('usefulArea').value;
-
-            await contract.methods.registerProperty(propertyAddress, totalArea, usefulArea).send({
-                from: propertyAddress,
-                gas: 3000000
-            });
-
-            console.log('Недвижимость успешно зарегистрирована!');
+            const account = document.getElementById('accountAddress').value;
+            const balance = await contract.methods.checkBalance(account).call();
+            document.getElementById('balanceResult').innerText = `Ваш текущий баланс: ${balance} wei`;
         } catch (error) {
-            console.error('Ошибка при регистрации недвижимости:', error);
+            console.error('Ошибка при проверке баланса:', error);
         }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const confirmButton = document.getElementById('confirmButton');
+        confirmButton.addEventListener('click', async (event) => {
+            event.preventDefault();
+
+            try {
+                const propertyAddress = document.getElementById('propertyAddress').value;
+                const totalArea = document.getElementById('totalArea').value;
+                const usefulArea = document.getElementById('usefulArea').value;
+
+                await contract.methods.registerProperty(propertyAddress, totalArea, usefulArea).send({
+                    from: propertyAddress,
+                    gas: 3000000
+                });
+
+                console.log('Недвижимость успешно зарегистрирована!');
+            } catch (error) {
+                console.error('Ошибка при регистрации недвижимости:', error);
+            }
+        });
     });
 </script>
 <script>
@@ -67,6 +97,18 @@
                 break;
             case 'changeRole':
                 window.location.href = 'changeRole.html';
+                break;
+            case 'transferOwner':
+                window.location.href = 'transferOwner.html';
+                break;
+            case 'updateProperty':
+                window.location.href = 'updateProperty.html';
+                break;
+            case 'removeProperty':
+                window.location.href = 'removeProperty.html';
+                break;
+            case 'updateRent':
+                window.location.href = 'updateRent.html';
                 break;
             default:
                 break;
