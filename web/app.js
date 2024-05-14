@@ -447,11 +447,6 @@ const contract =  new web3.eth.Contract( [
             },
             {
                 "internalType": "uint256",
-                "name": "additionalRentDuration",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
                 "name": "newRentAmount",
                 "type": "uint256"
             }

@@ -74,4 +74,61 @@ contract("EstateAgency", async (accounts) => {
         // Проверяем, что недвижимость теперь арендована
         assert.equal(property.rented, true, "Property not marked as rented");
     });
+
+    it("should transfer ownership of a property", async () => {
+        const propertyAddress = accounts[4];
+        const newOwner = accounts[5];
+
+        // Передаем собственность недвижимости новому владельцу
+        await estateAgency.transferOwnership(propertyAddress, newOwner, { from: accounts[0] });
+
+        const property = await estateAgency.properties(propertyAddress);
+
+        // Проверяем, что владелец недвижимости изменился
+        assert.equal(property.owner, newOwner, "Property ownership not transferred");
+    });
+
+    it("should check balance of an account", async () => {
+        const account = accounts[0];
+
+        // Проверяем, что баланс возвращается
+        const balance = await estateAgency.checkBalance(account);
+        assert.notEqual(balance, 0, "Balance is zero");
+    });
+
+    it("should transfer ownership of a property", async () => {
+        const propertyAddress = accounts[4];
+        const newOwner = accounts[5];
+
+        await estateAgency.transferOwnership(propertyAddress, newOwner, { from: accounts[0] });
+
+        const property = await estateAgency.properties(propertyAddress);
+
+        assert.equal(property.owner, newOwner, "Ownership not transferred");
+    });
+
+
+    it("should remove a property", async () => {
+        const propertyAddress = accounts[4];
+
+        await estateAgency.removeProperty(propertyAddress, { from: accounts[0] });
+
+        const property = await estateAgency.properties(propertyAddress);
+
+        assert.equal(property.owner, "0x0000000000000000000000000000000000000000", "Property not removed");
+    });
+
+    it("should update property areas", async () => {
+        const propertyAddress = accounts[4];
+        const newTotalArea = 120;
+        const newUsefulArea = 100;
+
+        await estateAgency.updatePropertyAreas(propertyAddress, newTotalArea, newUsefulArea, { from: accounts[0] });
+
+        const property = await estateAgency.properties(propertyAddress);
+
+        assert.equal(property.totalArea.toNumber(), newTotalArea, "Total area not updated");
+        assert.equal(property.usefulArea.toNumber(), newUsefulArea, "Useful area not updated");
+    });
+
 });
